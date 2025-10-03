@@ -1,20 +1,16 @@
 # Repository Guidelines
 
 ## Project Structure & Module Organization
-The App Router lives under `app/`, with `layout.tsx` wiring fonts and `page.tsx` serving the landing view. Global styles and Tailwind layer definitions are centralized in `app/globals.css`. Shared configuration stays at the repo root (`next.config.ts`, `tsconfig.json`, `eslint.config.mjs`). Static assets and icons belong in `public/`; import them via absolute paths (`/next.svg`). Leverage the `@/**/*` path alias from `tsconfig.json` for cross-module imports.
+The Next.js App Router lives under `app/`; `layout.tsx` wires fonts and shared UI, while `page.tsx` renders the landing view. Shared UI primitives reside in `components/`, reusable logic in `lib/`, and static assets (SVGs, icons, favicons) in `public/`. TypeScript tooling and configuration files (`next.config.ts`, `tsconfig.json`, `eslint.config.mjs`) stay at the repository root. Use the `@/` alias (configured in `tsconfig.json`) for cross-module imports instead of relative `../../` chains.
 
 ## Build, Test, and Development Commands
-- `npm run dev`: Start the local Next.js dev server with Turbopack hot reload.
-- `npm run build`: Produce an optimized production bundle.
-- `npm run start`: Serve the build output locally for verification.
-- `npm run lint`: Run ESLint with the Next.js + TypeScript presets.
-Run commands from the repository root and stick to `npm` to avoid lockfile drift.
+Run `npm run dev` to start the local dev server with Turbopack hot reload. Ship-ready bundles come from `npm run build`, followed by `npm run start` to verify the optimized output. Lint the codebase with `npm run lint`; treat warnings as blockers. If you add scripts, keep them in `package.json` and document usage inline.
 
 ## Coding Style & Naming Conventions
-Code is TypeScript-first with `strict` compiler options. Keep React components functional, typed, and stored in PascalCase files; shared utilities and hooks stay camelCase. Apply Tailwind utility classes in JSX and consolidate shared styles in `app/globals.css`. Run `npm run lint` before committing; only suppress rules with an inline comment that explains the exception.
+Write strictly typed React function components in PascalCase files (for example, `components/Header.tsx`). Co-locate shared hooks and utilities in camelCase modules under `lib/`. Apply Tailwind classes directly within JSX and extract shared layers into `app/globals.css` when duplication grows. Prefer descriptive prop names, avoid implicit any, and keep indentation at two spaces. Autofix trivial linting issues via `npm run lint -- --fix`, but never silence rules without an explanatory comment.
 
 ## Testing Guidelines
-No automated test runner ships yet. When adding coverage, colocate specs beside the code (`__tests__/` folders or `.test.tsx` files) and favor Testing Library assertions for UI behavior. Document any manual QA alongside the PR until automated suites exist. Lint must pass as the minimum gate.
+No automated suite ships today. When adding coverage, colocate tests beside the target file using `Component.test.tsx` or `__tests__/hook.test.ts`. Favor Testing Library for UI interactions and document manual QA steps in your PR body until automation exists. Keep mocks lightweight and include at least one assertion that guards each critical behavior.
 
 ## Commit & Pull Request Guidelines
-Existing commits are concise, lower-case imperatives (e.g., `empty nextjs projec`). Follow the same tone, keep each commit focused, and reference related work in the body. Pull requests should state intent, outline key implementation details, summarize testing (include command output when relevant), and link to issues or tickets. Attach screenshots or recordings for UI changes and call out follow-up tasks explicitly.
+Commits follow lower-case imperatives (`add hero layout`) and should focus on a single concern. In PRs, summarize intent, implementation highlights, manual or automated test output, and link any tracking issues. Attach screenshots or screen recordings for UI-facing changes, and call out TODOs or follow-up work explicitly.

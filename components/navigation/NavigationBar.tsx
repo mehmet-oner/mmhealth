@@ -1,11 +1,14 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+
 import { AuthDialog } from "@/components/auth/AuthDialog";
 import { useAuth } from "@/components/providers/AuthProvider";
 
 export function NavigationBar() {
   const { user, loading, signOut } = useAuth();
+  const router = useRouter();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [menuError, setMenuError] = useState<string | null>(null);
@@ -53,6 +56,7 @@ export function NavigationBar() {
     try {
       await signOut();
       setMenuOpen(false);
+      router.push("/");
     } catch (error) {
       const message =
         error instanceof Error ? error.message : "Unable to sign out right now.";

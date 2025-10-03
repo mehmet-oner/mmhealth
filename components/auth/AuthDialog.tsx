@@ -1,11 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { useAuth } from "@/components/providers/AuthProvider";
 
 type AuthDialogProps = {
   open: boolean;
   onClose: () => void;
+  initialMode?: AuthMode;
 };
 
 type AuthMode = "signin" | "signup";
@@ -15,8 +17,9 @@ type StatusMessage = {
   message: string;
 };
 
-export function AuthDialog({ open, onClose }: AuthDialogProps) {
+export function AuthDialog({ open, onClose, initialMode = "signin" }: AuthDialogProps) {
   const { signIn, signUp } = useAuth();
+  const router = useRouter();
   const [mode, setMode] = useState<AuthMode>("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -31,8 +34,8 @@ export function AuthDialog({ open, onClose }: AuthDialogProps) {
       return;
     }
 
-    setMode("signin");
-  }, [open]);
+    setMode(initialMode);
+  }, [open, initialMode]);
 
   if (!open) {
     return null;
@@ -58,6 +61,7 @@ export function AuthDialog({ open, onClose }: AuthDialogProps) {
       if (mode === "signin") {
         await signIn({ email, password });
         onClose();
+        router.push("/dashboard");
       } else {
         await signUp({ email, password });
         setStatus({

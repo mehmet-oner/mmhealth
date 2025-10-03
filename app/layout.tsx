@@ -5,7 +5,7 @@ import { NavigationBar } from "@/components/navigation/NavigationBar";
 
 export const metadata: Metadata = {
   title: "mmhealth",
-  description: "Mobile-first healthy eating companion",
+  description: "Your healthy eating companion",
 };
 
 export default function RootLayout({
