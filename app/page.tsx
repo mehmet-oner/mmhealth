@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Suspense } from "react";
 import { Navbar } from "@/components/Navbar";
 
 const features = [
@@ -37,7 +38,9 @@ const highlights = [
 export default function Home() {
   return (
     <div className="flex min-h-screen flex-col bg-slate-50 text-slate-900">
-      <Navbar />
+      <Suspense fallback={<div className="h-14" aria-hidden />}>
+        <Navbar />
+      </Suspense>
       <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-16 px-4 pb-16 pt-12 sm:pt-16">
         <section className="flex flex-col gap-8 rounded-3xl bg-white p-8 shadow-sm sm:p-12">
           <span className="inline-flex w-fit items-center rounded-full bg-emerald-100 px-4 py-1 text-xs font-semibold uppercase tracking-wider text-emerald-700">
