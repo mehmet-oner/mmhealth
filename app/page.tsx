@@ -1,8 +1,10 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 
 import { AuthDialog } from "@/components/auth/AuthDialog";
+import { useAuth } from "@/components/providers/AuthProvider";
 
 const highlights = [
   {
@@ -23,6 +25,7 @@ const highlights = [
 ];
 
 export default function Home() {
+  const { user } = useAuth();
   const [createAccountOpen, setCreateAccountOpen] = useState(false);
 
   const handleOpenSignup = () => {
@@ -48,13 +51,22 @@ export default function Home() {
             and mindful reminders that flex with your day.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-            <button
-              type="button"
-              onClick={handleOpenSignup}
-              className="inline-flex items-center justify-center rounded-full bg-emerald-500 px-5 py-2.5 text-sm font-semibold text-white shadow-md transition hover:bg-emerald-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400"
-            >
-              Start meal planning
-            </button>
+            {user ? (
+              <Link
+                href="/dashboard"
+                className="inline-flex items-center justify-center rounded-full bg-emerald-500 px-5 py-2.5 text-sm font-semibold text-white shadow-md transition hover:bg-emerald-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400"
+              >
+                Start meal planning
+              </Link>
+            ) : (
+              <button
+                type="button"
+                onClick={handleOpenSignup}
+                className="inline-flex items-center justify-center rounded-full bg-emerald-500 px-5 py-2.5 text-sm font-semibold text-white shadow-md transition hover:bg-emerald-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400"
+              >
+                Start meal planning
+              </button>
+            )}
           </div>
         </section>
 
